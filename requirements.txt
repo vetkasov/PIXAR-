@@ -19,7 +19,6 @@ blis @ file:///home/conda/feedstock_root/build_artifacts/cython-blis_17296638294
 Brotli @ file:///home/conda/feedstock_root/build_artifacts/brotli-split_1725267488082/work
 cached-property @ file:///home/conda/feedstock_root/build_artifacts/cached_property_1615209429212/work
 catalogue @ file:///home/conda/feedstock_root/build_artifacts/catalogue_1736092442253/work
-catboost==1.2.8
 certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1746569525376/work/certifi
 cffi @ file:///home/conda/feedstock_root/build_artifacts/cffi_1725560564262/work
 charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1746214863626/work
