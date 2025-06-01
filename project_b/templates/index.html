@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Стилизация текста</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: url('/static/writers_bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      padding: 30px;
+      box-sizing: border-box;
+    }
+    header {
+      text-align: center;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .header-icon {
+      width: 50px;
+      position: absolute;
+      top: 0;
+      left: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #2c3e50;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    input[type="text"], textarea, input[type="file"] {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 1rem;
+      background: #fafafa;
+    }
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    .btn {
+      display: inline-block;
+      background: #2980b9;
+      color: #fff;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      margin-right: 10px;
+    }
+    .btn:hover {
+      background: #1f618d;
+    }
+    .reset-btn {
+      background: #e74c3c;
+    }
+    .reset-btn:hover {
+      background: #c0392b;
+    }
+    .result-section {
+      margin-top: 30px;
+    }
+    .result-text {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f0f3f5;
+      font-family: 'Courier New', monospace;
+      min-height: 120px;
+      resize: vertical;
+    }
+    .download-btn {
+      margin-top: 12px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #555;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Автовоспроизведение звука при заходе на сайт
+  <audio id="welcome-audio" src="/static/welcome.mp3" autoplay muted></audio>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('welcome-audio');
+      audio.muted = false;  // снимаем начальное заглушение
+      audio.play().catch(() => {
+        console.warn('Автовоспроизведение звука заблокировано браузером');
+      });
+    }); -->
+  </script>
+  <div class="container">
+    <header>
+      <div class="d-flex align-items-center mb-4">
+        <img src="{{ url_for('static', filename='author_icon.png') }}" alt="Author Icon" width="40" height="40" class="me-3" style="flex-shrink: 0;">
+        <h2 class="mb-0">Преобразование текста в стиль автора</h2>
+      </div>
+    </header>
+    <main>
+      <form method="post" enctype="multipart/form-data" class="stylizer-form">
+        <div class="form-group">
+          <label for="author">Фамилия автора</label>
+          <input type="text" id="author" name="author" placeholder="Например, Достоевский" required
+                 value="{{ request.form.author if request.method=='POST' else '' }}">
+        </div>
+        <div class="form-group">
+          <label for="input_text">Введите текст</label>
+          <textarea
+            id="input_text"
+            name="input_text"
+            placeholder="Ваш текст..."
+          >{{ input_text }}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="input_file">Или загрузите основной текст (.txt)</label>
+          <input type="file" id="input_file" name="input_file" accept=".txt">
+          {% if input_text and not request.form.get('input_text') %}
+            <div class="file-info">
+              Первые 2000 символов загруженного файла:
+              "{{ input_text[:100].replace('\\n',' ') }}..."
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="example_file">Пример произведения автора (опционально, .txt)</label>
+          <input type="file" id="example_file" name="example_file" accept=".txt">
+          {% if example_text %}
+            <div class="file-info">
+              Первые 2000 символов примера: "{{ example_text[:100].replace('\\n',' ') }}..."
+            </div>
+          {% endif %}
+        </div>
+        <button type="submit" class="btn">Сгенерировать</button>
+        <button type="reset" class="btn reset-btn">« Вернуть</button>
+        <button type="button" id="reset-btn" class="btn reset-btn">🧹 Очистить</button>
+      </form>
+      <script>
+        const resetBtn = document.getElementById('reset-btn');
+        const form = document.querySelector('.stylizer-form');
+        resetBtn.addEventListener('click', () => {
+          form.reset();
+          document.getElementById('author').value = '';
+          document.getElementById('input_text').value = '';
+          const fileInput = document.getElementById('file');
+          fileInput.value = null;
+        });
+      </script>
+
+            {% if input_text %}
+      <section class="result-section">
+        <h2>Результат</h2>
+        <textarea readonly class="result-text">{{ result }}</textarea>
+        {% if download_link %}
+        <a href="/download" class="btn download-btn">Скачать .txt</a>
+        {% endif %}
+      </section>
+      <script>
+        document.getElementById('input_text').value = '';
+      </script>
+      {% else %}
+      <section class="result-section">
+        <h2>Результат</h2>
+        <textarea readonly class="result-text">Я бы с радостью помог вам переписать текст в стиле нужного автора</textarea>
+      </section>
+      {% endif %}
+    </main>
+    <div class="footer">
+      prod. by Arseny Vetkasov, Petr Ivanov
+    </div>
+  </div>
+</body>
+</html>
+

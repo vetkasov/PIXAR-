@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+
+.container {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 16px;
+  left: 20px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #2c3e50;
+}
+
+.stylizer-form .form-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #d1d8e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #2980b9;
+  outline: none;
+}
+
+input[type="file"] {
+  font-size: 0.95rem;
+}
+
+.btn {
+  display: inline-block;
+  background: #2980b9;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn:hover {
+  background: #1f618d;
+}
+
+.result-section {
+  margin-top: 30px;
+}
+
+.result-text {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #d1d8e0;
+  border-radius: 8px;
+  background: #fbfcfd;
+  font-family: 'Courier New', monospace;
+}
+
+.download-btn {
+  margin-top: 10px;
+}
